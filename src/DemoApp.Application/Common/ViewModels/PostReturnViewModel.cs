@@ -1,4 +1,4 @@
-﻿namespace DemoApp.Application.ViewModels
+﻿namespace DemoApp.Application.Common.ViewModels
 {
     public sealed class PostReturnViewModel
     {

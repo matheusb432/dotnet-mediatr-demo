@@ -1,4 +1,4 @@
-﻿using DemoApp.Application.ViewModels;
+﻿using DemoApp.Application.Common.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.OData.Extensions;

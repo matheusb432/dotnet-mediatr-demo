@@ -1,17 +1,14 @@
 ﻿using AutoMapper;
+using DemoApp.Application.Common.ViewModels;
 using DemoApp.Domain.Models;
 using DemoApp.Infra.Repositories;
 using FluentValidation;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace DemoApp.Application.TodoItems.Commands
 {
-    public record CreateTodoItemCommand : IRequest<int>
+    public record CreateTodoItemCommand : IRequest<PostReturnViewModel>
     {
         public int ListId { get; init; }
 
@@ -20,13 +17,31 @@ namespace DemoApp.Application.TodoItems.Commands
 
     public class CreateTodoItemCommandValidator : AbstractValidator<CreateTodoItemCommand>
     {
-        public CreateTodoItemCommandValidator()
+        private readonly ITodoItemRepository _repo;
+
+        public CreateTodoItemCommandValidator(ITodoItemRepository repo)
         {
-            RuleFor(v => v.Title).MaximumLength(200).NotEmpty();
+            _repo = repo;
+            RuleFor(v => v.Title)
+                .NotEmpty()
+                .WithMessage("Title is required")
+                .MaximumLength(200)
+                .WithMessage("Title must not exceed 200 characters")
+                .MustAsync(BeUniqueTitle)
+                .WithMessage("The title already exists");
+        }
+
+        public async Task<bool> BeUniqueTitle(string title, CancellationToken cancellationToken)
+        {
+            return !await _repo
+                .Query()
+                .Where(x => !string.IsNullOrEmpty(x.Title))
+                .AnyAsync(x => x.Title!.ToLower() == title.ToLower());
         }
     }
 
-    public class CreateTodoItemCommandHandler : IRequestHandler<CreateTodoItemCommand, int>
+    public class CreateTodoItemCommandHandler
+        : IRequestHandler<CreateTodoItemCommand, PostReturnViewModel>
     {
         private readonly ITodoItemRepository _repo;
         private readonly IMapper _mapper;
@@ -37,7 +52,7 @@ namespace DemoApp.Application.TodoItems.Commands
             _mapper = mapper;
         }
 
-        public async Task<int> Handle(
+        public async Task<PostReturnViewModel> Handle(
             CreateTodoItemCommand request,
             CancellationToken cancellationToken
         )
@@ -46,7 +61,7 @@ namespace DemoApp.Application.TodoItems.Commands
 
             await _repo.InsertAsync(entity);
 
-            return entity.Id;
+            return new PostReturnViewModel(entity.Id);
         }
     }
 }

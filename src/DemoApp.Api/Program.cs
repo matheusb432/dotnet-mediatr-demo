@@ -1,6 +1,9 @@
+using DemoApp.Api.Services;
+using DemoApp.Application.Common.Interfaces;
 using DemoApp.Application.Configurations;
 using DemoApp.Infra.Configurations;
 using Microsoft.AspNetCore.OData;
+using ZymLabs.NSwag.FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -10,7 +13,16 @@ services.AddControllers().AddOData(opt => opt.Count().Filter().OrderBy().Select(
 
 services.AddApplicationConfig();
 services.AddInfraConfiguration(configuration);
+
 services.AddHttpContextAccessor();
+services.AddScoped<ICurrentUserService, CurrentUserService>();
+services.AddScoped<FluentValidationSchemaProcessor>(provider =>
+{
+    var validationRules = provider.GetService<IEnumerable<FluentValidationRule>>();
+    var loggerFactory = provider.GetService<ILoggerFactory>();
+
+    return new FluentValidationSchemaProcessor(provider, validationRules, loggerFactory);
+});
 
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();

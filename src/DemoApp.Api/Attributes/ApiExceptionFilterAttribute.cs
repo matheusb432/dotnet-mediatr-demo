@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
-using DemoApp.Application.Exceptions;
+using DemoApp.Application.Common.Exceptions;
 
 namespace DemoApp.Api.Attributes
 {

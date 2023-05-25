@@ -16,6 +16,7 @@
     <PackageReference Include="FluentValidation" Version="11.5.2" />
     <PackageReference Include="Microsoft.AspNetCore.OData" Version="8.1.1" />
     <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="7.0.6" />
+    <PackageReference Include="ZymLabs.NSwag.FluentValidation" Version="0.6.2" />
   </ItemGroup>
 
   <ItemGroup>
