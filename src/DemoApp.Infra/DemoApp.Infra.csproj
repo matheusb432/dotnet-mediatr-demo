@@ -16,4 +16,8 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DemoApp.Domain\DemoApp.Domain.csproj" />
+  </ItemGroup>
 </Project>
