@@ -32,12 +32,12 @@ namespace DemoApp.Infra.Repositories
 
     public abstract class Repository<T> : IRepository<T> where T : Entity, new()
     {
-        protected readonly TaskManagerContext _context;
+        protected readonly DemoAppContext _context;
         protected readonly DbSet<T> _dbSet;
         protected readonly int _userId;
         protected readonly bool _isAdmin;
 
-        protected Repository(TaskManagerContext context)
+        protected Repository(DemoAppContext context)
         {
             _context = context;
             _dbSet = _context.Set<T>();

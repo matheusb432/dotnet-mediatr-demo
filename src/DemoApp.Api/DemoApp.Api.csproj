@@ -19,10 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\DemoApp.Application\DemoApp.Application.csproj" />
     <ProjectReference Include="..\DemoApp.Domain\DemoApp.Domain.csproj" />
     <ProjectReference Include="..\DemoApp.Infra\DemoApp.Infra.csproj" />

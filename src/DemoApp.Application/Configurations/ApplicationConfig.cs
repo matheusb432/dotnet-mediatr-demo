@@ -1,7 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
-using MediatR;
 
 namespace DemoApp.Application.Configurations
 {
@@ -10,6 +9,10 @@ namespace DemoApp.Application.Configurations
         public static void AddApplicationConfig(this IServiceCollection services)
         {
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+            services.AddMediatR(
+                cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly())
+            );
         }
     }
 }

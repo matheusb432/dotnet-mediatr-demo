@@ -8,12 +8,12 @@ var services = builder.Services;
 
 services.AddControllers().AddOData(opt => opt.Count().Filter().OrderBy().Select().SetMaxTop(50));
 
-services.AddEndpointsApiExplorer();
-services.AddSwaggerGen();
-services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
-
 services.AddApplicationConfig();
 services.AddInfraConfiguration(configuration);
+services.AddHttpContextAccessor();
+
+services.AddEndpointsApiExplorer();
+services.AddSwaggerGen();
 
 var app = builder.Build();
 

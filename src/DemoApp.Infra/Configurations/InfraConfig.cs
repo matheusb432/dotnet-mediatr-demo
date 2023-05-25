@@ -20,15 +20,15 @@ namespace DemoApp.Infra.Configurations
 
         private static void AddRepositories(this IServiceCollection services)
         {
-            services.AddScoped<ITaskItemRepository, TaskItemRepository>();
-            services.AddScoped<ITimesheetRepository, TimesheetRepository>();
+            services.AddScoped<ITodoItemRepository, TodoItemRepository>();
+            services.AddScoped<ITodoListRepository, TodoListRepository>();
         }
 
         private static void AddDatabase(
             this IServiceCollection services,
             IConfiguration configuration
         ) =>
-            services.AddDbContext<TaskManagerContext>(
+            services.AddDbContext<DemoAppContext>(
                 opt =>
                     opt.UseSqlServer(
                             configuration.GetConnectionString(InfraUtils.DefaultConnectionName)
