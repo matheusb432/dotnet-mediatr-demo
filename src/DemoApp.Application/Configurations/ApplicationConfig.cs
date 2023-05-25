@@ -15,11 +15,11 @@ namespace DemoApp.Application.Configurations
             services.AddMediatR(cfg =>
             {
                 cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
-                cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
                 cfg.AddBehavior(
                     typeof(IPipelineBehavior<,>),
                     typeof(UnhandledExceptionBehavior<,>)
                 );
+                cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
                 cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(CustomValidationBehavior<,>));
             });
         }

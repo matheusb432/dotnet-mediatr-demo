@@ -4,6 +4,7 @@ using DemoApp.Application.TodoItems.Commands;
 using DemoApp.Application.TodoItems;
 using Microsoft.AspNetCore.Mvc;
 using DemoApp.Application.Common.ViewModels;
+using DemoApp.Application.TodoItems.Queries;
 
 namespace DemoApp.Api.Controllers
 {
@@ -12,7 +13,7 @@ namespace DemoApp.Api.Controllers
         [HttpGet]
         [ODataQuery]
         public async Task<IQueryable<TodoItemDto>> GetFromQuery() =>
-            await Mediator.Send(new GetTodoItemsCommand());
+            await Mediator.Send(new GetTodoItemsQuery());
 
         [HttpPost]
         public async Task<ActionResult<PostReturnViewModel>> Create(CreateTodoItemCommand command)

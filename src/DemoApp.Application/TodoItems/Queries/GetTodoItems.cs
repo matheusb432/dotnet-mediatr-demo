@@ -2,12 +2,12 @@
 using DemoApp.Infra.Repositories;
 using MediatR;
 
-namespace DemoApp.Application.TodoItems.Commands
+namespace DemoApp.Application.TodoItems.Queries
 {
-    public class GetTodoItemsCommand : IRequest<IQueryable<TodoItemDto>> { }
+    public class GetTodoItemsQuery : IRequest<IQueryable<TodoItemDto>> { }
 
     public sealed class GetTodoItemsCommandHandler
-        : IRequestHandler<GetTodoItemsCommand, IQueryable<TodoItemDto>>
+        : IRequestHandler<GetTodoItemsQuery, IQueryable<TodoItemDto>>
     {
         private readonly ITodoItemRepository _repo;
         private readonly IMapper _mapper;
@@ -18,7 +18,10 @@ namespace DemoApp.Application.TodoItems.Commands
             _mapper = mapper;
         }
 
-        public Task<IQueryable<TodoItemDto>> Handle(GetTodoItemsCommand _, CancellationToken _2)
+        public Task<IQueryable<TodoItemDto>> Handle(
+            GetTodoItemsQuery request,
+            CancellationToken cancellationToken
+        )
         {
             var todoItems = _mapper.ProjectTo<TodoItemDto>(_repo.Query());
             return Task.FromResult(todoItems);

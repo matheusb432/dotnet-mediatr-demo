@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using DemoApp.Domain.Models;
+using System.Linq.Expressions;
 
 namespace DemoApp.Infra.Repositories
 {
@@ -14,6 +15,10 @@ namespace DemoApp.Infra.Repositories
         Task<T?> GetByIdMinimalAsync(long id);
 
         Task<bool> ExistsAsync(long id);
+
+        Task ModifyAsync(T entity, bool save = true);
+
+        Task<bool> AnyAsync(Expression<Func<T, bool>> predicate);
 
         Task<List<T>> GetManyByIdsAsync(List<int> ids);
 
@@ -56,6 +61,9 @@ namespace DemoApp.Infra.Repositories
                 .Select(x => new T { Id = x.Id })
                 .FirstOrDefaultAsync(e => e.Id == id);
 
+        public async Task<bool> AnyAsync(Expression<Func<T, bool>> predicate) =>
+            await Query().AnyAsync(predicate);
+
         public async Task<bool> ExistsAsync(long id) => await Query().AnyAsync(x => x.Id == id);
 
         public virtual async Task<List<T>> GetManyByIdsAsync(List<int> ids) =>
@@ -89,6 +97,14 @@ namespace DemoApp.Infra.Repositories
                 await SaveChangesAsync();
 
             return entity;
+        }
+
+        public async Task ModifyAsync(T entity, bool save = true)
+        {
+            _dbSet.Entry(entity).State = EntityState.Modified;
+
+            if (save)
+                await SaveChangesAsync();
         }
 
         public async Task DeleteAsync(T entity, bool save = true)

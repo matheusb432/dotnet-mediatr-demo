@@ -3,7 +3,9 @@ using DemoApp.API.Controllers;
 using DemoApp.Application.Common.ViewModels;
 using DemoApp.Application.TodoItems;
 using DemoApp.Application.TodoItems.Commands;
+using DemoApp.Application.TodoItems.Queries;
 using Microsoft.AspNetCore.Mvc;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace DemoApp.Api.Controllers
 {
@@ -12,12 +14,27 @@ namespace DemoApp.Api.Controllers
         [HttpGet]
         [ODataQuery]
         public async Task<IQueryable<TodoItemDto>> GetFromQuery() =>
-            await Mediator.Send(new GetTodoItemsCommand());
+            await Mediator.Send(new GetTodoItemsQuery());
 
         [HttpPost]
         public async Task<ActionResult<PostReturnViewModel>> Create(CreateTodoItemCommand command)
         {
             return await Mediator.Send(command);
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> Update(UpdateTodoItemCommand command)
+        {
+            await Mediator.Send(command);
+
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            await Mediator.Send(new DeleteTodoItemCommand(id));
+            return NoContent();
         }
     }
 }

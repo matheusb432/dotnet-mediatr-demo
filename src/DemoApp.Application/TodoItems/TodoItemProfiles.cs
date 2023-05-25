@@ -9,6 +9,7 @@ namespace DemoApp.Application.TodoItems
         public TodoItemProfiles()
         {
             CreateMap<CreateTodoItemCommand, TodoItem>();
+            CreateMap<UpdateTodoItemCommand, TodoItem>();
             CreateMap<TodoItem, TodoItemDto>();
         }
     }

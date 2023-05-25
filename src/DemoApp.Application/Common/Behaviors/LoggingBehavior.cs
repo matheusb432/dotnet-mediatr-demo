@@ -25,7 +25,6 @@ namespace DemoApp.Application.Common.Behaviors
             var requestName = typeof(TRequest).Name;
             var userId = _currentUserService.UserId ?? string.Empty;
 
-            // TODO save log to any service
             _logger.LogInformation("Request: {Name}\nUserId: {@UserId}", requestName, userId);
 
             return await next();
