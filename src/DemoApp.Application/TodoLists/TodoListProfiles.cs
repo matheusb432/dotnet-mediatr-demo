@@ -9,7 +9,8 @@ namespace DemoApp.Application.TodoLists
         public TodoListProfiles()
         {
             CreateMap<CreateTodoListCommand, TodoList>();
-            CreateMap<TodoList, TodoListDto>().ReverseMap();
+            CreateMap<TodoList, TodoListDto>()
+                .ForMember(x => x.TodoItems, src => src.MapFrom(opt => opt.TodoItems));
         }
     }
 }

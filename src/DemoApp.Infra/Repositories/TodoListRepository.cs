@@ -8,5 +8,10 @@ namespace DemoApp.Infra.Repositories
     internal sealed class TodoListRepository : Repository<TodoList>, ITodoListRepository
     {
         public TodoListRepository(DemoAppContext context) : base(context) { }
+
+        public override IQueryable<TodoList> Query()
+        {
+            return base.Query().Include(x => x.TodoItems);
+        }
     }
 }

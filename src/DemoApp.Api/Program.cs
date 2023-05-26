@@ -9,7 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 var services = builder.Services;
 
-services.AddControllers().AddOData(opt => opt.Count().Filter().OrderBy().Select().SetMaxTop(50));
+services
+    .AddControllers()
+    .AddOData(opt => opt.Count().Filter().OrderBy().Expand().Select().SetMaxTop(50));
 
 services.AddApplicationConfig();
 services.AddInfraConfiguration(configuration);

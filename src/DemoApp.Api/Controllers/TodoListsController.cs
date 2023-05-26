@@ -10,10 +10,14 @@ namespace DemoApp.Api.Controllers
 {
     public class TodoListsController : ApiControllerBase
     {
-        [HttpGet]
+        [HttpGet("query")]
         [ODataQuery]
         public async Task<IQueryable<TodoListDto>> GetFromQuery() =>
             await Mediator.Send(new GetTodoListsQuery());
+
+        [HttpGet]
+        public async Task<IEnumerable<TodoListDto>> Get() =>
+            await Mediator.Send(new GetAllTodoListsQuery());
 
         [HttpPost]
         public async Task<ActionResult<PostReturnViewModel>> Create(CreateTodoListCommand command)
