@@ -4,7 +4,7 @@ namespace DemoApp.Domain.Models
 {
     public sealed class TodoItem : Entity
     {
-        public int ListId { get; set; }
+        public int TodoListId { get; set; }
 
         public string? Title { get; set; }
 
@@ -16,6 +16,6 @@ namespace DemoApp.Domain.Models
 
         public bool Done { get; set; }
 
-        public TodoList List { get; set; } = null!;
+        public TodoList TodoList { get; set; } = null!;
     }
 }

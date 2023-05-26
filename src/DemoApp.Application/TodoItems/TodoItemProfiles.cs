@@ -4,13 +4,13 @@ using DemoApp.Domain.Models;
 
 namespace DemoApp.Application.TodoItems
 {
-    public sealed class TodoItemProfiles : Profile
+    public sealed class TodoListProfiles : Profile
     {
-        public TodoItemProfiles()
+        public TodoListProfiles()
         {
             CreateMap<CreateTodoItemCommand, TodoItem>();
             CreateMap<UpdateTodoItemCommand, TodoItem>();
-            CreateMap<TodoItem, TodoItemDto>();
+            CreateMap<TodoItem, TodoItemDto>().ReverseMap();
         }
     }
 }

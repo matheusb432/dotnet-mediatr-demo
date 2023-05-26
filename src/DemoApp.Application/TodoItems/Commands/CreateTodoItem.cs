@@ -12,7 +12,7 @@ namespace DemoApp.Application.TodoItems.Commands
     {
         public int ListId { get; init; }
 
-        public string? Title { get; init; }
+        public string Title { get; init; } = string.Empty;
     }
 
     public class CreateTodoItemCommandValidator : AbstractValidator<CreateTodoItemCommand>
@@ -36,7 +36,7 @@ namespace DemoApp.Application.TodoItems.Commands
             return !await _repo
                 .Query()
                 .Where(x => !string.IsNullOrEmpty(x.Title))
-                .AnyAsync(x => x.Title!.ToLower() == title.ToLower());
+                .AnyAsync(x => x.Title.ToLower() == title.ToLower());
         }
     }
 

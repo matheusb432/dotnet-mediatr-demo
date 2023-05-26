@@ -2,8 +2,13 @@
 {
     public sealed class TodoList : Entity
     {
-        public string? Title { get; set; }
+        public TodoList()
+        {
+            TodoItems = new List<TodoItem>();
+        }
 
-        public IList<TodoItem> Items { get; } = new List<TodoItem>();
+        public string Title { get; set; } = string.Empty;
+
+        public List<TodoItem> TodoItems { get; set; }
     }
 }

@@ -8,6 +8,10 @@ namespace DemoApp.Infra.Configurations.EntityConfigurations
         public override void ConfigureOtherProperties(EntityTypeBuilder<TodoList> builder)
         {
             builder.Property(t => t.Title).HasMaxLength(200).IsUnicode(false).IsRequired();
+            builder
+                .HasMany(t => t.TodoItems)
+                .WithOne(t => t.TodoList)
+                .HasForeignKey(t => t.TodoListId);
         }
     }
 }

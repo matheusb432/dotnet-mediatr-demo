@@ -5,7 +5,7 @@ namespace DemoApp.Application.TodoItems
     public sealed class TodoItemDto
     {
         public int Id { get; init; }
-        public int ListId { get; init; }
+        public int TodoListId { get; init; }
 
         public string? Title { get; init; }
 

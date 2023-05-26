@@ -48,7 +48,7 @@ namespace DemoApp.Infra.Repositories
             _dbSet = _context.Set<T>();
         }
 
-        public virtual IQueryable<T> Query() => _dbSet.AsQueryable().AsSplitQuery();
+        public virtual IQueryable<T> Query() => _dbSet.AsQueryable();
 
         public virtual async Task<IEnumerable<T>> GetAllAsync() => await Query().ToListAsync();
 

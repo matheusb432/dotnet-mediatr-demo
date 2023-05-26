@@ -49,7 +49,7 @@ namespace DemoApp.Application.TodoItems.Commands
                 throw new NotFoundException(nameof(TodoItem), request.Id);
             }
 
-            entity.ListId = request.ListId;
+            entity.TodoListId = request.ListId;
             entity.Note = request.Note;
             entity.Priority = request.Priority;
 

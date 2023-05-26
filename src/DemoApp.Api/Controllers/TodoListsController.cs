@@ -1,10 +1,10 @@
 ﻿using DemoApp.API.Configurations;
 using DemoApp.API.Controllers;
-using DemoApp.Application.TodoItems.Commands;
-using DemoApp.Application.TodoItems;
-using Microsoft.AspNetCore.Mvc;
 using DemoApp.Application.Common.ViewModels;
-using DemoApp.Application.TodoItems.Queries;
+using DemoApp.Application.TodoLists;
+using DemoApp.Application.TodoLists.Commands;
+using DemoApp.Application.TodoLists.Queries;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DemoApp.Api.Controllers
 {
@@ -12,13 +12,20 @@ namespace DemoApp.Api.Controllers
     {
         [HttpGet]
         [ODataQuery]
-        public async Task<IQueryable<TodoItemDto>> GetFromQuery() =>
-            await Mediator.Send(new GetTodoItemsQuery());
+        public async Task<IQueryable<TodoListDto>> GetFromQuery() =>
+            await Mediator.Send(new GetTodoListsQuery());
 
         [HttpPost]
-        public async Task<ActionResult<PostReturnViewModel>> Create(CreateTodoItemCommand command)
+        public async Task<ActionResult<PostReturnViewModel>> Create(CreateTodoListCommand command)
         {
             return await Mediator.Send(command);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            await Mediator.Send(new DeleteTodoListCommand(id));
+            return NoContent();
         }
     }
 }
