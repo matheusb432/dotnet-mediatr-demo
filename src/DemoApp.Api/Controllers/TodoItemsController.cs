@@ -36,5 +36,12 @@ namespace DemoApp.Api.Controllers
             await Mediator.Send(new DeleteTodoItemCommand(id));
             return NoContent();
         }
+
+        [HttpDelete("withBehavior/{id}")]
+        public async Task<ActionResult> DeleteWithBehavior(int id)
+        {
+            await Mediator.Send(new DeleteTodoItemWithBehaviorCommand(id));
+            return NoContent();
+        }
     }
 }

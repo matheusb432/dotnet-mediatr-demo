@@ -4,7 +4,7 @@ using ValidationException = DemoApp.Application.Common.Exceptions.ValidationExce
 
 namespace DemoApp.Application.Common.Behaviors
 {
-    public class CustomValidationBehavior<TRequest, TResponse>
+    public sealed class CustomValidationBehavior<TRequest, TResponse>
         : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
     {
         private readonly IEnumerable<IValidator<TRequest>> _validators;

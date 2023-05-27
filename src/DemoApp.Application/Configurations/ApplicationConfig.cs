@@ -1,4 +1,6 @@
 ﻿using DemoApp.Application.Common.Behaviors;
+using DemoApp.Application.TodoItems.Commands;
+using DemoApp.Domain.Models;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,6 +23,7 @@ namespace DemoApp.Application.Configurations
                 );
                 cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
                 cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(CustomValidationBehavior<,>));
+                cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ExistsBehavior<,>));
             });
         }
     }

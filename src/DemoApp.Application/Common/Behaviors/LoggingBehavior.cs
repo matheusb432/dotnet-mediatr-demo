@@ -4,8 +4,8 @@ using Microsoft.Extensions.Logging;
 
 namespace DemoApp.Application.Common.Behaviors
 {
-    public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-        where TRequest : notnull
+    public sealed class LoggingBehavior<TRequest, TResponse>
+        : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
     {
         private readonly ILogger _logger;
         private readonly ICurrentUserService _currentUserService;
