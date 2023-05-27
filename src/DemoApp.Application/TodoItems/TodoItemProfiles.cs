@@ -8,7 +8,7 @@ namespace DemoApp.Application.TodoItems
     {
         public TodoListProfiles()
         {
-            CreateMap<CreateTodoItemCommand, TodoItem>();
+            CreateMap<TodoItemCreateDto, TodoItem>();
             CreateMap<UpdateTodoItemCommand, TodoItem>();
             CreateMap<TodoItem, TodoItemDto>().ReverseMap();
         }

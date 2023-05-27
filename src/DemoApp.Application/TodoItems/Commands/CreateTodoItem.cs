@@ -4,39 +4,25 @@ using DemoApp.Domain.Models;
 using DemoApp.Infra.Repositories;
 using FluentValidation;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace DemoApp.Application.TodoItems.Commands
 {
     public record CreateTodoItemCommand : IRequest<PostReturnViewModel>
     {
-        public int ListId { get; init; }
+        public CreateTodoItemCommand(TodoItemCreateDto todoItem)
+        {
+            TodoItem = todoItem;
+        }
 
-        public string Title { get; init; } = string.Empty;
+        public TodoItemCreateDto TodoItem { get; set; } = new();
     }
 
     public class CreateTodoItemCommandValidator : AbstractValidator<CreateTodoItemCommand>
     {
-        private readonly ITodoItemRepository _repo;
-
-        public CreateTodoItemCommandValidator(ITodoItemRepository repo)
+        public CreateTodoItemCommandValidator(IValidator<TodoItemCreateDto> validator)
         {
-            _repo = repo;
-            RuleFor(v => v.Title)
-                .NotEmpty()
-                .WithMessage("Title is required")
-                .MaximumLength(200)
-                .WithMessage("Title must not exceed 200 characters")
-                .MustAsync(BeUniqueTitle)
-                .WithMessage("The title already exists");
-        }
-
-        public async Task<bool> BeUniqueTitle(string title, CancellationToken cancellationToken)
-        {
-            return !await _repo
-                .Query()
-                .Where(x => !string.IsNullOrEmpty(x.Title))
-                .AnyAsync(x => x.Title.ToLower() == title.ToLower());
+            RuleFor(x => x.TodoItem).SetValidator(validator);
+            RuleFor(x => x.TodoItem.TodoListId).NotEmpty();
         }
     }
 
@@ -57,7 +43,7 @@ namespace DemoApp.Application.TodoItems.Commands
             CancellationToken cancellationToken
         )
         {
-            var entity = _mapper.Map<TodoItem>(request);
+            var entity = _mapper.Map<TodoItem>(request.TodoItem);
 
             await _repo.InsertAsync(entity);
 

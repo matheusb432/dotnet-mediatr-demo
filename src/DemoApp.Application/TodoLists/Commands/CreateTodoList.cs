@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using DemoApp.Application.Common.ViewModels;
 using DemoApp.Application.TodoItems;
-using DemoApp.Application.TodoItems.Commands;
 using DemoApp.Domain.Models;
 using DemoApp.Infra.Repositories;
 using FluentValidation;
@@ -13,21 +12,19 @@ namespace DemoApp.Application.TodoLists.Commands
     public record CreateTodoListCommand : IRequest<PostReturnViewModel>
     {
         public string Title { get; init; } = string.Empty;
-        public List<TodoItemDto> TodoItems { get; init; } = new();
+        public List<TodoItemCreateDto> TodoItems { get; init; } = new();
     }
 
     public class CreateTodoListCommandValidator : AbstractValidator<CreateTodoListCommand>
     {
         private readonly ITodoListRepository _repo;
-        private readonly ITodoItemRepository _todoItemRepo;
 
         public CreateTodoListCommandValidator(
             ITodoListRepository repo,
-            ITodoItemRepository todoItemRepo
+            IValidator<TodoItemCreateDto> todoItemValidator
         )
         {
             _repo = repo;
-            _todoItemRepo = todoItemRepo;
 
             RuleFor(v => v.Title)
                 .NotEmpty()
@@ -39,30 +36,12 @@ namespace DemoApp.Application.TodoLists.Commands
             RuleFor(v => v.TodoItems)
                 .Must(l => l.Count > 0)
                 .WithMessage("Must have at least one todo item");
-            RuleForEach(v => v.TodoItems)
-                .ChildRules(
-                    item =>
-                        item.RuleFor(i => i.Title)
-                            .NotEmpty()
-                            .WithMessage("Item title is required")
-                            .MaximumLength(200)
-                            .WithMessage("Item title  must not exceed 200 characters")
-                            .MustAsync(BeUniqueItemTitle)
-                            .WithMessage("The Item title already exists")
-                );
+            RuleForEach(v => v.TodoItems).SetValidator(todoItemValidator);
         }
 
         public async Task<bool> BeUniqueListTitle(string title, CancellationToken cancellationToken)
         {
             return !await _repo
-                .Query()
-                .Where(x => !string.IsNullOrEmpty(x.Title))
-                .AnyAsync(x => x.Title!.ToLower() == title.ToLower(), cancellationToken);
-        }
-
-        public async Task<bool> BeUniqueItemTitle(string title, CancellationToken cancellationToken)
-        {
-            return !await _todoItemRepo
                 .Query()
                 .Where(x => !string.IsNullOrEmpty(x.Title))
                 .AnyAsync(x => x.Title!.ToLower() == title.ToLower(), cancellationToken);

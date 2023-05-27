@@ -10,6 +10,8 @@ namespace DemoApp.Application.TodoLists
             TodoItems = new List<TodoItemDto>();
         }
 
+        public int Id { get; set; }
+
         public string Title { get; set; } = string.Empty;
 
         public List<TodoItemDto> TodoItems { get; set; }

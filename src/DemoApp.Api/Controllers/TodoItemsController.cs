@@ -17,9 +17,9 @@ namespace DemoApp.Api.Controllers
             await Mediator.Send(new GetTodoItemsQuery());
 
         [HttpPost]
-        public async Task<ActionResult<PostReturnViewModel>> Create(CreateTodoItemCommand command)
+        public async Task<ActionResult<PostReturnViewModel>> Create(TodoItemCreateDto data)
         {
-            return await Mediator.Send(command);
+            return await Mediator.Send(new CreateTodoItemCommand(data));
         }
 
         [HttpPut]

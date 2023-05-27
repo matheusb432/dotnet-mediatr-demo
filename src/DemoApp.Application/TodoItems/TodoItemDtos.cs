@@ -7,7 +7,7 @@ namespace DemoApp.Application.TodoItems
         public int Id { get; init; }
         public int TodoListId { get; init; }
 
-        public string? Title { get; init; }
+        public string Title { get; init; } = string.Empty;
 
         public string? Note { get; init; }
 
@@ -16,5 +16,12 @@ namespace DemoApp.Application.TodoItems
         public DateTime? Reminder { get; init; }
 
         public bool Done { get; init; }
+    }
+
+    public record TodoItemCreateDto
+    {
+        public int TodoListId { get; set; }
+
+        public string Title { get; set; } = string.Empty;
     }
 }
