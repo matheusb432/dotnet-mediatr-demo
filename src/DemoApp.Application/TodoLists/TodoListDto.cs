@@ -12,6 +12,6 @@ namespace DemoApp.Application.TodoLists
 
         public string Title { get; set; } = string.Empty;
 
-        public List<TodoItemDto> TodoItems { get; } = new List<TodoItemDto>();
+        public List<TodoItemDto> TodoItems { get; set; }
     }
 }
